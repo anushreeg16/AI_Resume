@@ -1,0 +1,39 @@
+ANUSHREE GUPTA
+
+Email: anushree@example.com
+Phone: +91 9876543210
+
+CAREER OBJECTIVE
+Motivated Computer Science student passionate about Artificial Intelligence, Machine Learning, and Software Development.
+
+EDUCATION
+B.Tech in Computer Science
+Dr. A.P.J. Abdul Kalam Technical University (AKTU)
+
+SKILLS
+- Python
+- Java
+- Flask
+- HTML
+- CSS
+- JavaScript
+- SQL
+- Git
+- Machine Learning
+- TensorFlow
+
+PROJECTS
+
+1. AI Customer Service Chatbot
+Developed an AI chatbot using Python, Flask, and NLP to answer customer queries.
+
+2. ResumeAI - Smart Resume Screening & Candidate Ranking Tool
+Developing an AI system to parse resumes, extract skills, compare them with Job Descriptions, and rank candidates.
+
+CERTIFICATIONS
+- AI Internship
+- Python Programming
+
+LANGUAGES
+English
+Hindi

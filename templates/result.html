@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResumeAI Results</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:#f4f7fb;
+            padding:40px;
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:30px;
+            color:#333;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+            border-radius:15px;
+            overflow:hidden;
+            box-shadow:0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        th{
+            background:#667eea;
+            color:white;
+            padding:16px;
+            font-size:16px;
+        }
+
+        td{
+            padding:15px;
+            border-bottom:1px solid #eee;
+            vertical-align:top;
+            font-size:15px;
+        }
+
+        tr:hover{
+            background:#f8f8ff;
+        }
+
+        .excellent{
+            background:#28a745;
+            color:white;
+            padding:7px 12px;
+            border-radius:20px;
+            font-weight:bold;
+        }
+
+        .good{
+            background:#17a2b8;
+            color:white;
+            padding:7px 12px;
+            border-radius:20px;
+            font-weight:bold;
+        }
+
+        .average{
+            background:#ffc107;
+            color:black;
+            padding:7px 12px;
+            border-radius:20px;
+            font-weight:bold;
+        }
+
+        .low{
+            background:#dc3545;
+            color:white;
+            padding:7px 12px;
+            border-radius:20px;
+            font-weight:bold;
+        }
+
+        ul{
+            padding-left:18px;
+        }
+
+        li{
+            margin-bottom:5px;
+        }
+
+        .back{
+
+            display:inline-block;
+            margin-top:30px;
+            text-decoration:none;
+            background:#667eea;
+            color:white;
+            padding:14px 28px;
+            border-radius:10px;
+            font-size:17px;
+        }
+
+        .back:hover{
+
+            background:#4d63db;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>🏆 AI Resume Screening Report</h1>
+
+<table>
+
+<tr>
+
+<th>Rank</th>
+
+<th>Resume</th>
+
+<th>ATS Score</th>
+
+<th>Status</th>
+
+<th>Detected Skills</th>
+
+<th>Missing Skills</th>
+
+<th>AI Feedback</th>
+
+</tr>
+
+{% for r in results %}
+
+<tr>
+
+<td>
+
+<b>#{{loop.index}}</b>
+
+</td>
+
+<td>
+
+{{r.name}}
+
+</td>
+
+<td>
+
+<b>{{r.score}}%</b>
+
+</td>
+
+<td>
+
+{% if r.status=="Excellent" %}
+
+<span class="excellent">
+
+{{r.status}}
+
+</span>
+
+{% elif r.status=="Good" %}
+
+<span class="good">
+
+{{r.status}}
+
+</span>
+
+{% elif r.status=="Average" %}
+
+<span class="average">
+
+{{r.status}}
+
+</span>
+
+{% else %}
+
+<span class="low">
+
+{{r.status}}
+
+</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if r.skills %}
+
+<ul>
+
+{% for s in r.skills %}
+
+<li>{{s}}</li>
+
+{% endfor %}
+
+</ul>
+
+{% else %}
+
+No skills detected
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if r.missing %}
+
+<ul>
+
+{% for m in r.missing %}
+
+<li>{{m}}</li>
+
+{% endfor %}
+
+</ul>
+
+{% else %}
+
+None 🎉
+
+{% endif %}
+
+</td>
+
+<td>
+
+<ul>
+
+{% for f in r.feedback %}
+
+<li>{{f}}</li>
+
+{% endfor %}
+
+</ul>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<center>
+
+<a href="/" class="back">
+
+⬅ Analyze More Resumes
+
+</a>
+
+</center>
+
+</body>
+
+</html>

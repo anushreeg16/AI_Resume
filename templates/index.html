@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResumeAI | Smart Resume Screening</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 750px;
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0px 15px 35px rgba(0,0,0,0.25);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        p {
+            text-align: center;
+            color: gray;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            resize: none;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        input[type=file] {
+            width: 100%;
+            padding: 10px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #667eea;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        button:hover {
+            background: #4d63db;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 35px;
+            gap: 15px;
+        }
+
+        .card {
+            flex: 1;
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            color: gray;
+            font-size: 13px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🤖 ResumeAI</h1>
+
+    <p>AI Powered Resume Screening & Candidate Ranking System</p>
+
+    <form action="/" method="POST" enctype="multipart/form-data">
+
+        <label>Job Description</label>
+
+        <textarea
+            name="job_description"
+            placeholder="Paste complete Job Description here..."
+            required></textarea>
+
+        <label>Select Resume(s)</label>
+
+        <input
+            type="file"
+            name="resume"
+            multiple
+            accept=".pdf"
+            required>
+
+        <button type="submit">
+            Analyze Candidates 🚀
+        </button>
+
+    </form>
+
+    <div class="features">
+
+        <div class="card">
+            <h3>📊 ATS Score</h3>
+            <p>Checks resume compatibility with Job Description.</p>
+        </div>
+
+        <div class="card">
+            <h3>🏆 Candidate Ranking</h3>
+            <p>Ranks candidates according to ATS score.</p>
+        </div>
+
+        <div class="card">
+            <h3>🧠 AI Feedback</h3>
+            <p>Provides missing skills and improvement suggestions.</p>
+        </div>
+
+    </div>
+
+    
+
+</div>
+
+</body>
+
+</html>
