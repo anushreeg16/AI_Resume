@@ -15,21 +15,32 @@
         }
 
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
 
-        .container {
-            width: 750px;
-            background: white;
-            border-radius: 20px;
-            padding: 35px;
-            box-shadow: 0px 15px 35px rgba(0,0,0,0.25);
-        }
+    background: linear-gradient(135deg, #667eea, #764ba2);
 
+    min-height: 100vh;
+
+    padding: 40px;
+
+}
+
+.container {
+
+    width: 100%;
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 45px;
+
+    box-shadow: 0px 15px 35px rgba(0,0,0,0.25);
+
+}
         h1 {
             text-align: center;
             color: #333;
@@ -50,7 +61,9 @@
             color: #444;
         }
 
-        textarea {
+        textarea 
+        
+        {
             width: 100%;
             height: 180px;
             resize: none;
@@ -82,12 +95,15 @@
             background: #4d63db;
         }
 
-        .features {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 35px;
-            gap: 15px;
-        }
+       .features {
+
+    display:flex;
+
+    gap:20px;
+
+    margin-top:35px;
+
+}
 
         .card {
             flex: 1;
@@ -115,7 +131,17 @@
             font-size: 13px;
         }
 
-    </style>
+    
+
+.error{
+    background:#ffe5e5;
+    color:#d8000c;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+
+</style>
 
 </head>
 
@@ -127,29 +153,70 @@
 
     <p>AI Powered Resume Screening & Candidate Ranking System</p>
 
-    <form action="/" method="POST" enctype="multipart/form-data">
+    
 
-        <label>Job Description</label>
+        <form action="/" method="POST" enctype="multipart/form-data">
 
-        <textarea
-            name="job_description"
-            placeholder="Paste complete Job Description here..."
-            required></textarea>
 
-        <label>Select Resume(s)</label>
 
-        <input
-            type="file"
-            name="resume"
-            multiple
-            accept=".pdf"
-            required>
+    {% if error %}
+    <div class="error">
+        {{ error }}
+    </div>
+    {% endif %}
 
-        <button type="submit">
-            Analyze Candidates 🚀
-        </button>
+    <label>Job Role (Optional)</label>
 
-    </form>
+    <input
+        type="text"
+        name="job_role"
+        list="roles"
+        placeholder="Example: AI Engineer">
+
+    <datalist id="roles">
+
+        <option value="AI Engineer">
+        <option value="Python Developer">
+        <option value="Java Developer">
+        <option value="Full Stack Developer">
+        <option value="Software Engineer">
+        <option value="Machine Learning Engineer">
+        <option value="Data Scientist">
+        <option value="Data Analyst">
+
+    </datalist>
+
+
+
+<label>Job Description (Optional)</label>
+
+<textarea
+    name="job_description"
+    placeholder="Paste complete Job Description here..."></textarea>
+
+<p class="note">
+    Enter either a Job Role or paste a complete Job Description.
+    If both are entered, the Job Description will be used.
+</p>
+
+    
+
+    <label>Select Resume(s)</label>
+
+    <input
+        type="file"
+        name="resume"
+        multiple
+        accept=".pdf"
+        required>
+
+    <button type="submit">
+        Analyze Candidates 🚀
+    </button>
+
+</form>
+
+    
 
     <div class="features">
 

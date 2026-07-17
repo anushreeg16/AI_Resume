@@ -3,13 +3,18 @@ import os
 import re
 import pdfplumber
 
+
 app = Flask(__name__)
+
 app.secret_key = "resumeai123"
 
+
 UPLOAD_FOLDER = "uploads"
+
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 
 
 # ==========================
@@ -17,42 +22,190 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # ==========================
 
 SKILLS = [
+
     "python",
     "java",
     "c++",
     "sql",
     "mysql",
+
     "flask",
     "django",
+
     "html",
     "css",
     "javascript",
+
     "react",
     "node",
+
     "git",
     "github",
+
     "machine learning",
     "deep learning",
+
     "tensorflow",
+
     "pandas",
     "numpy",
+
     "opencv",
+
     "docker",
     "aws",
+
     "data structures",
     "algorithms",
+
     "communication",
     "problem solving"
 ]
 
 
+
 # ==========================
-# PDF Text Extraction
+# Skill Weights
+# ==========================
+
+SKILL_WEIGHTS = {
+
+    "python":12,
+    "java":10,
+    "c++":8,
+
+    "sql":8,
+    "mysql":6,
+
+    "flask":8,
+    "django":8,
+
+    "html":3,
+    "css":3,
+
+    "javascript":5,
+
+    "react":6,
+    "node":6,
+
+    "git":4,
+    "github":4,
+
+    "machine learning":15,
+    "deep learning":15,
+
+    "tensorflow":12,
+
+    "pandas":8,
+    "numpy":8,
+
+    "opencv":10,
+
+    "docker":6,
+    "aws":8,
+
+    "data structures":10,
+    "algorithms":10,
+
+    "communication":4,
+    "problem solving":5
+
+}
+
+
+
+
+# ==========================
+# Job Roles Database
+# ==========================
+
+JOB_ROLES = {
+
+
+"ai engineer":
+"""
+Python
+Machine Learning
+Deep Learning
+TensorFlow
+Flask
+SQL
+Git
+AWS
+Communication
+Problem Solving
+""",
+
+
+
+"python developer":
+"""
+Python
+Flask
+Django
+SQL
+HTML
+CSS
+JavaScript
+Git
+GitHub
+""",
+
+
+
+"java developer":
+"""
+Java
+SQL
+MySQL
+Git
+GitHub
+Data Structures
+Algorithms
+Communication
+""",
+
+
+
+"full stack developer":
+"""
+HTML
+CSS
+JavaScript
+React
+Node
+SQL
+Git
+GitHub
+""",
+
+
+
+"data scientist":
+"""
+Python
+Pandas
+NumPy
+Machine Learning
+Deep Learning
+TensorFlow
+SQL
+Communication
+"""
+
+
+}
+
+
+
+
+# ==========================
+# Extract PDF Text
 # ==========================
 
 def extract_text(pdf_path):
 
-    text = ""
+    text=""
 
     try:
 
@@ -63,30 +216,45 @@ def extract_text(pdf_path):
                 page_text = page.extract_text()
 
                 if page_text:
+
                     text += page_text.lower()
 
+
     except Exception:
+
         pass
+
 
     return text
 
 
+
+
 # ==========================
-# Skill Detection
+# Find Skills
 # ==========================
 
 def find_skills(text):
 
-    detected = []
+    detected=[]
 
-    text = text.lower()
+    text=text.lower()
+
 
     for skill in SKILLS:
 
-        if skill.lower() in text:
+        pattern = r"\b" + re.escape(skill) + r"\b"
+
+
+        if re.search(pattern,text):
+
             detected.append(skill)
 
+
     return detected
+
+
+
 
 
 # ==========================
@@ -95,101 +263,145 @@ def find_skills(text):
 
 def calculate_score(resume_text, job_description):
 
-    resume_words = set(
-        re.findall(r"\w+", resume_text.lower())
-    )
 
-    job_words = set(
-        re.findall(r"\w+", job_description.lower())
-    )
+    resume_skills=find_skills(resume_text)
 
-    if len(job_words) == 0:
+    job_skills=find_skills(job_description)
+
+
+    if not job_skills:
+
         return 0
 
-    matched = resume_words.intersection(job_words)
 
-    score = int(
-        (len(matched) / len(job_words)) * 100
+
+    total_weight=0
+
+    matched_weight=0
+
+
+
+    for skill in job_skills:
+
+
+        weight=SKILL_WEIGHTS.get(skill,5)
+
+        total_weight += weight
+
+
+
+        if skill in resume_skills:
+
+            matched_weight += weight
+
+
+
+    score=round(
+        (matched_weight/total_weight)*100
     )
 
-    if score > 100:
-        score = 100
 
-    return score
+    return min(score,100)
+
+
+
 
 
 # ==========================
-# Score Status
+# Status
 # ==========================
 
 def score_status(score):
 
-    if score >= 80:
+    if score>=80:
+
         return "Excellent"
 
-    elif score >= 60:
+    elif score>=60:
+
         return "Good"
 
-    elif score >= 40:
+    elif score>=40:
+
         return "Average"
 
     else:
+
         return "Low"
+
+
+
 
 
 # ==========================
 # Missing Skills
 # ==========================
 
-def missing_skills(resume_skills, job_skills):
+def missing_skills(resume_skills,job_skills):
 
-    missing = []
+
+    missing=[]
+
 
     for skill in job_skills:
 
+
         if skill not in resume_skills:
+
             missing.append(skill)
+
 
     return missing
 
 
+
+
+
 # ==========================
-# AI Feedback
+# Feedback
 # ==========================
 
-def generate_feedback(score, skills, missing):
+def generate_feedback(score,skills,missing):
 
-    feedback = []
 
-    if score >= 80:
+    feedback=[]
+
+
+    if score>=80:
 
         feedback.append(
             "Excellent ATS compatibility."
         )
 
-    elif score >= 60:
+
+    elif score>=60:
 
         feedback.append(
-            "Good resume with minor improvements required."
+            "Good resume with minor improvements."
         )
+
 
     else:
 
         feedback.append(
-            "Resume needs significant improvement."
+            "Resume needs improvement."
         )
 
-    if len(skills) >= 8:
+
+
+    if len(skills)>=8:
 
         feedback.append(
             "Strong technical profile."
         )
 
-    elif len(skills) >= 4:
+
+    elif len(skills)>=4:
 
         feedback.append(
             "Moderate technical profile."
         )
+
 
     else:
 
@@ -197,12 +409,15 @@ def generate_feedback(score, skills, missing):
             "Add more technical skills."
         )
 
-    if len(missing):
+
+
+    if missing:
 
         feedback.append(
             "Recommended Skills: "
             + ", ".join(missing)
         )
+
 
     else:
 
@@ -210,104 +425,174 @@ def generate_feedback(score, skills, missing):
             "No major skill gaps detected."
         )
 
+
     return feedback
+
+
+
+
+
+
 # ==========================
-# Home Route
+# Main Route
 # ==========================
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/",methods=["GET","POST"])
+
 def index():
 
-    if request.method == "POST":
 
-        job_description = request.form.get(
+    if request.method=="POST":
+
+
+        job_role=request.form.get(
+            "job_role",
+            ""
+        ).strip()
+
+
+
+        job_description=request.form.get(
             "job_description",
             ""
+        ).strip()
+
+
+
+        if not job_description and job_role:
+
+
+            job_description=JOB_ROLES.get(
+                job_role.lower(),
+                ""
+            )
+
+
+
+        if not job_description:
+
+
+            return render_template(
+                "index.html",
+                error="Please enter a valid Job Role or Job Description."
+            )
+
+
+
+
+        files=request.files.getlist(
+            "resume"
         )
 
-        files = request.files.getlist("resume")
 
-        results = []
 
-        job_skill_list = find_skills(
+        results=[]
+
+
+
+        job_skill_list=find_skills(
             job_description
         )
 
+
+
         for file in files:
 
-            if file.filename == "":
+
+
+            if file.filename=="":
+
                 continue
 
-            filepath = os.path.join(
+
+
+            filepath=os.path.join(
                 app.config["UPLOAD_FOLDER"],
                 file.filename
             )
 
+
+
             file.save(filepath)
 
-            resume_text = extract_text(
+
+
+            resume_text=extract_text(
                 filepath
             )
 
-            skills = find_skills(
+
+
+            skills=find_skills(
                 resume_text
             )
 
-            score = calculate_score(
+
+
+            score=calculate_score(
                 resume_text,
                 job_description
             )
 
-            missing = missing_skills(
+
+
+            missing=missing_skills(
                 skills,
                 job_skill_list
             )
 
-            feedback = generate_feedback(
+
+
+            feedback=generate_feedback(
                 score,
                 skills,
                 missing
             )
 
+
+
             results.append({
 
-                "name": file.filename,
+                "name":file.filename,
 
-                "score": score,
+                "score":score,
 
-                "status": score_status(score),
+                "status":score_status(score),
 
-                "skills": skills,
+                "skills":skills,
 
-                "missing": missing,
+                "missing":missing,
 
-                "feedback": feedback
+                "feedback":feedback
 
             })
 
-        # Candidate Ranking
-        results = sorted(
+
+
+
+        results=sorted(
             results,
-            key=lambda x: x["score"],
+            key=lambda x:x["score"],
             reverse=True
         )
+
+
 
         return render_template(
             "result.html",
             results=results
         )
 
+
+
     return render_template(
         "index.html"
     )
 
 
-# ==========================
-# Run Flask App
-# ==========================
 
-if __name__ == "__main__":
 
-    app.run(
-        debug=True
-    )
+
+if __name__=="__main__":
+
+    app.run(debug=True)
